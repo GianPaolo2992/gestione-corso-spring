@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -30,7 +31,7 @@ public class Docente {
         this.listaCorsi = ListaCorso;
     }
 
-    public void addListaCorsi(Corso corso){
+    public void addCorso(Corso corso){
         if (!listaCorsi.contains(corso)){
             listaCorsi.add(corso);
         }
@@ -51,11 +52,11 @@ public class Docente {
         return cognome;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 

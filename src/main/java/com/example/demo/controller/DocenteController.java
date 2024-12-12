@@ -22,31 +22,31 @@ public class DocenteController {
 
     //GET
     @GetMapping("/getDocenteById/{idDocente}")
-    public DocenteDTO getDocenteById(@PathVariable("idDocente") Integer id){
+    public DocenteDTO getDocenteById(@PathVariable("idDocente") Integer id) {
 
 
       return docenteService.getDocenteById(id);
     }
 
     @GetMapping("/getAllDocenti")
-    public List<DocenteDTO> getAllDocente(){
+    public List<DocenteDTO> getAllDocente() {
 
         return docenteService.getAll();
     }
 
     //INSERT
     @PostMapping("/insDocente")
-    public DocenteDTO insDocente(@RequestBody DocenteDTO DTO){
+    public DocenteDTO insDocente(@RequestBody DocenteDTO DTO) {
 
        return docenteService.InsertDocente(DTO);
     }
 
     @PutMapping("/updateDocente/{idDocente}")
-    public DocenteDTO updateDocente(@PathVariable("idDocente")Integer id, @RequestBody DocenteDTO DTO){
+    public DocenteDTO updateDocente(@PathVariable("idDocente")Integer id, @RequestBody DocenteDTO DTO) {
         return docenteService.updateDocente(id,DTO);
     }
     @DeleteMapping("deleteDocenteById/{idDocente}")
-    public void deleteDocenteById(@PathVariable("idDocente")Integer id){
+    public void deleteDocenteById(@PathVariable("idDocente")Integer id) {
           docenteService.deleteDocenteById(id);
     }
 

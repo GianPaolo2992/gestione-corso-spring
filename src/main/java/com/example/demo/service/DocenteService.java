@@ -29,14 +29,7 @@ public class DocenteService {
         if (docente.isPresent()){
 
            DocenteDTO newDto = DocenteConverter.convertToDTO(docente.get());
-//            List<DocenteDTO> dtos = docente.stream().map(myObj -> {
-//                        newDto.setid(docente.get().getid());
-//                        newDto.setNome(docente.get().getNome());
-//                        newDto.setCognome(docente.get().getCognome());
-//                        newDto.setListaCorsi(docente.get().getListaCorsi());
-//                        return newDto;
-//                    })
-//                    .collect(Collectors.toList());
+
             return newDto ;
         } else {
             throw new EntityNotFoundException();
@@ -71,7 +64,7 @@ public class DocenteService {
 
        Optional<Docente>  doc = docenteRepository.findById(id);
         if(doc.isPresent()){
-            DTO.setid(id);
+            DTO.setId(id);
             Docente DocenteSaved = DocenteConverter.convertToEntity(DTO);
             docenteRepository.save(DocenteSaved);
             return DocenteConverter.convertToDTO(DocenteSaved);

@@ -2,10 +2,11 @@ package com.example.demo.DTO;
 
 
 import com.example.demo.entity.Corso;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DocenteDTO {
 
     private Integer id;
@@ -49,11 +50,11 @@ public class DocenteDTO {
         return cognome;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 

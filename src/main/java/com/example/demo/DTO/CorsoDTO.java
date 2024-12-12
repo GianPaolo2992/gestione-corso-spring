@@ -2,12 +2,14 @@ package com.example.demo.DTO;
 
 import com.example.demo.entity.Discente;
 import com.example.demo.DTO.DocenteDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CorsoDTO {
 
 
@@ -68,7 +70,7 @@ public class CorsoDTO {
         return docenteDTO;
     }
     public Integer getIdDocenteDTO() {
-        return docenteDTO.getid();
+        return docenteDTO.getId();
     }
 
 

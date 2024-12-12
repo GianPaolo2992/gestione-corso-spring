@@ -12,7 +12,7 @@ public class DocenteConverter {
 
     public static Docente convertToEntity(DocenteDTO docenteDTO) {
         Docente docente = new Docente();
-        docente.setid(docenteDTO.getid());
+        docente.setId(docenteDTO.getId());
         docente.setNome(docenteDTO.getNome());
         docente.setCognome(docenteDTO.getCognome());
 //       docente.setListaCorsi(docenteDTO.getListaCorsi());
@@ -22,22 +22,21 @@ public class DocenteConverter {
 
     public static DocenteDTO convertToDTO(Docente docente) {
         DocenteDTO docenteDTO = new DocenteDTO();
-        docenteDTO.setid(docente.getid());
+        docenteDTO.setId(docente.getId());
         docenteDTO.setNome(docente.getNome());
         docenteDTO.setCognome(docente.getCognome());
-        List<Corso> listaCorsi = docente.getListaCorsi();
-
-        if (listaCorsi != null) {
-            List<CorsoDTO> listacorsiDTO = CorsoConverter.convertListToDTO(docente.getListaCorsi());
-            docenteDTO.setListaCorsi(listacorsiDTO);
+        if (docente.getListaCorsi() != null) {
+            docenteDTO.setListaCorsi(CorsoConverter.convertListToDTONoDOC(docente.getListaCorsi()));
         }
 
 
         return docenteDTO;
     }
+
+
     public static DocenteDTO convertToDTOXCorso(Docente docente) {
         DocenteDTO docenteDTO = new DocenteDTO();
-        docenteDTO.setid(docente.getid());
+        docenteDTO.setId(docente.getId());
         docenteDTO.setNome(docente.getNome());
         docenteDTO.setCognome(docente.getCognome());
 
@@ -47,8 +46,8 @@ public class DocenteConverter {
     }
     public static Docente convertToEntityXCorso(DocenteDTO docenteDTO) {
         Docente docente = new Docente();
-        if (docenteDTO.getid() != null){
-            docente.setid(docenteDTO.getid());
+        if (docenteDTO.getId() != null){
+            docente.setId(docenteDTO.getId());
         }
         docente.setNome(docenteDTO.getNome());
         docente.setCognome(docenteDTO.getCognome());
@@ -57,12 +56,21 @@ public class DocenteConverter {
 
         return docente;
     }
+    public static Docente toEntity(DocenteDTO dto) {
+        Docente docente = new Docente();
+        if(dto.getId()!=null) {
+            docente.setId(dto.getId());
+        }
+        docente.setNome(dto.getNome());
+        docente.setCognome(dto.getCognome());
+        return docente;
+    }
 
     public static DocenteDTO toDTO(Docente docente) {
         if (docente!=null) {
             DocenteDTO dto = new DocenteDTO();
-            if (docente.getid() != null) {
-                dto.setid(docente.getid());
+            if (docente.getId() != null) {
+                dto.setId(docente.getId());
             }
             dto.setNome(docente.getNome());
             dto.setCognome(docente.getCognome());
@@ -73,15 +81,7 @@ public class DocenteConverter {
     }
 
 
-    public static Docente toEntity(DocenteDTO dto) {
-        Docente docente = new Docente();
-        if(dto.getid()!=null) {
-            docente.setid(dto.getid());
-        }
-        docente.setNome(dto.getNome());
-        docente.setCognome(dto.getCognome());
-        return docente;
-    }
+
 
 
 }

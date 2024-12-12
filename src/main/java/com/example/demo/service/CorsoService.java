@@ -63,7 +63,9 @@ public class CorsoService {
         Corso corso = CorsoConverter.convertToEntity(corsoDTO);
 
         if (doc.isPresent()) {
-            corso.setDocente(doc.get());
+            Docente docente = doc.get();
+            corso.setDocente(docente);
+      //      docente.addCorso(corso);
         }
         Corso CorsoSaved = corsoRepository.save(corso);
         return CorsoConverter.convertToDTO(CorsoSaved);

@@ -25,10 +25,24 @@ public class CorsoConverter {
             corsoDTO.setNomeCorso(corso.getNomeCorso());
             corsoDTO.setDatainizio(corso.getDataInizio());
             corsoDTO.setDurata(corso.getDurata());
-//            corsoDTO.setDocente(corso.getDocente());
+            corsoDTO.setDocenteDTO(DocenteConverter.convertToDTOXCorso(corso.getDocente()));
             List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToEntity(corso.getListaDiscenti());
+            listaCorsoDTO.add(corsoDTO);
+        }
 
+        return listaCorsoDTO;
+    }
+    public static List<CorsoDTO> convertListToDTONoDOC(List<Corso> corsi) {
+        List<CorsoDTO> listaCorsoDTO = new ArrayList<>();
+        for (Corso corso : corsi) {
+            CorsoDTO corsoDTO = new CorsoDTO();
+            corsoDTO.setid(corso.getid());
+            corsoDTO.setNomeCorso(corso.getNomeCorso());
+            corsoDTO.setDatainizio(corso.getDataInizio());
+            corsoDTO.setDurata(corso.getDurata());
 
+            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToEntity(corso.getListaDiscenti());
+            listaCorsoDTO.add(corsoDTO);
         }
 
         return listaCorsoDTO;
@@ -40,6 +54,7 @@ public class CorsoConverter {
         corsoDTO.setNomeCorso(corso.getNomeCorso());
         corsoDTO.setDatainizio(corso.getDataInizio());
         corsoDTO.setDurata(corso.getDurata());
+
         if (corso.getDocente() != null) {
             corsoDTO.setDocenteDTO(DocenteConverter.convertToDTO(corso.getDocente()));
         }else {
@@ -64,7 +79,7 @@ public class CorsoConverter {
 
 
             if (corsoDTO.getDocenteDTO()!=null) {
-                corso.setDocente(DocenteConverter.toEntity(corsoDTO.getDocenteDTO()));
+                corso.setDocente(DocenteConverter.convertToEntityXCorso(corsoDTO.getDocenteDTO()));
             } else {
                 throw new EntityNotFoundException("Docente not found");
             }

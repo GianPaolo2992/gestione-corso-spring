@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class Corso {
     private String durata;
     @ManyToOne
     @JoinColumn(name = "id_docente")
-
+    @JsonIgnore
     private Docente docente;
     @ManyToMany
     @JoinTable(
