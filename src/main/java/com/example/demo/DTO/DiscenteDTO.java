@@ -17,11 +17,9 @@ public class DiscenteDTO {
     private String matricola;
     private LocalDate data_nascita;
 
-//    private List<Corso> listaCorsi;
-//
-//    public Discente(){
-//        this.listaCorsi = new ArrayList<>();
-//    }
+    private List<CorsoDTO> listaCorsiDTO;
+
+    public DiscenteDTO(){}
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -63,18 +61,18 @@ public class DiscenteDTO {
         return id;
     }
 
-//    public void setListaCorsi(List<Corso> listaCorsi){
-//        this.listaCorsi = listaCorsi;
-//    }
-//
-//    public List<Corso> getListaCorsi(){
-//        return listaCorsi;
-//    }
+    public void setListaCorsi(List<CorsoDTO> listaCorsiDTO){
+        this.listaCorsiDTO = listaCorsiDTO;
+    }
 
-//    public void aggiungiCorso (Corso corso){
-//        if (!listaCorsi.contains(corso)){
-//            listaCorsi.add(corso);
+    public List<CorsoDTO> getListaCorsi(){
+        return listaCorsiDTO;
+    }
+
+    public void addCorso (CorsoDTO corsoDTO){
+        if (!listaCorsiDTO.contains(corsoDTO)){
+            listaCorsiDTO.add(corsoDTO);
 //            corso.aggiungiDiscente(this);
-//        }
-//    }
+        }
+    }
 }

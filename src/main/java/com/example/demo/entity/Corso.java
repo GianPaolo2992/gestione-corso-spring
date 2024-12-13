@@ -20,11 +20,11 @@ public class Corso {
     private String durata;
     @ManyToOne
     @JoinColumn(name = "id_docente")
-    @JsonIgnore
+
     private Docente docente;
     @ManyToMany
     @JoinTable(
-            name = "rel_corso_discente",
+            name = "rel_corso_discenti",
             joinColumns = @JoinColumn (name = "id_corso"),
             inverseJoinColumns = @JoinColumn(name = "id_discente")
     )

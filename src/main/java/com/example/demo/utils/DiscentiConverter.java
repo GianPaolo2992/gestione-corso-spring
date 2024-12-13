@@ -16,7 +16,7 @@ public class DiscentiConverter {
 //    private String cognome;
 //    private String matricola;
 //    private LocalDate data_nascita;
-    public DiscenteDTO convertToEntity(Discente discente){
+    public static DiscenteDTO convertToDTO(Discente discente){
         DiscenteDTO discenteDTO = new DiscenteDTO();
         discenteDTO.setid(discente.getid());
         discenteDTO.setNome(discente.getNome());
@@ -25,7 +25,36 @@ public class DiscentiConverter {
         discenteDTO.setDataNascita(discente.getDataNascita());
         return discenteDTO;
     }
-    public static List<DiscenteDTO> convertListToEntity(List<Discente> discentes) {
+    public static DiscenteDTO convertToDTOWithList(Discente discente){
+        DiscenteDTO discenteDTO = new DiscenteDTO();
+        discenteDTO.setid(discente.getid());
+        discenteDTO.setNome(discente.getNome());
+        discenteDTO.setCognome(discente.getCognome());
+        discenteDTO.setMatricola(discente.getMatricola());
+        discenteDTO.setDataNascita(discente.getDataNascita());
+        if (discenteDTO.getListaCorsi() != null){
+
+            discenteDTO.setListaCorsi(CorsoConverter.convertListToDTO(discente.getListaCorsi()));
+
+        }else{
+            discenteDTO.setListaCorsi(new ArrayList<>());
+
+        }
+
+        return discenteDTO;
+    }
+    public static Discente convertToEntity(DiscenteDTO DTO){
+        Discente discente = new Discente();
+        discente.setid(DTO.getid());
+        discente.setNome(DTO.getNome());
+        discente.setCognome(DTO.getCognome());
+        discente.setMatricola(DTO.getMatricola());
+        discente.setDataNascita(DTO.getDataNascita());
+        return discente;
+    }
+
+
+    public static List<DiscenteDTO> convertListToDTO(List<Discente> discentes) {
         List<DiscenteDTO> listaDiscenteDTO = new ArrayList<>();
         for(Discente discente :discentes){
             DiscenteDTO discenteDTO = new DiscenteDTO();
@@ -41,7 +70,7 @@ public class DiscentiConverter {
 
         return listaDiscenteDTO;
     }
-    public static List<Discente> convertListToDTO(List<DiscenteDTO> listadiscenteDTO) {
+    public static List<Discente> convertListToEntity(List<DiscenteDTO> listadiscenteDTO) {
         List<Discente> listaDiscente = new ArrayList<>();
         for(DiscenteDTO DTO : listadiscenteDTO){
             Discente discente = new Discente();

@@ -15,23 +15,41 @@ public class DocenteDTO {
 
     private String cognome;
 
-    private List<CorsoDTO> listaCorsi = new ArrayList<>();
+    private List<CorsoDTONoDOC> listaCorsi ;
 
 
-    public List<CorsoDTO> getListaCorsi(){
+    public List<CorsoDTONoDOC> getListaCorsi(){
         return listaCorsi;
 
     }
 
-    public void setListaCorsi(List<CorsoDTO> ListaCorso){
+//    private List<CorsoDTO> listaCorsi ;
+//
+//
+//    public List<CorsoDTO> getListaCorsi(){
+//        return listaCorsi;
+//
+//    }
+
+
+    public void setListaCorsi(List<CorsoDTONoDOC> ListaCorso){
         this.listaCorsi = ListaCorso;
     }
 
-    public void addListaCorsi(CorsoDTO corsoDTO){
+//    public void setListaCorsi(List<CorsoDTO> ListaCorso) {
+//        this.listaCorsi = ListaCorso;
+//    }
+
+    public void addListaCorsi(CorsoDTONoDOC corsoDTO){
         if (!listaCorsi.contains(corsoDTO)){
             listaCorsi.add(corsoDTO);
         }
     }
+//    public void addListaCorsi(CorsoDTO corsoDTO){
+//        if (!listaCorsi.contains(corsoDTO)){
+//            listaCorsi.add(corsoDTO);
+//        }
+//    }
 
 
     public void setNome(String nome) {

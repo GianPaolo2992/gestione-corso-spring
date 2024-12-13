@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.DTO.CorsoDTO;
+import com.example.demo.DTO.CorsoDTONoDOC;
 import com.example.demo.DTO.DiscenteDTO;
 import com.example.demo.DTO.DocenteDTO;
 import com.example.demo.entity.Corso;
@@ -26,7 +27,7 @@ public class CorsoConverter {
             corsoDTO.setDatainizio(corso.getDataInizio());
             corsoDTO.setDurata(corso.getDurata());
             corsoDTO.setDocenteDTO(DocenteConverter.convertToDTOXCorso(corso.getDocente()));
-            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToEntity(corso.getListaDiscenti());
+            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToDTO(corso.getListaDiscenti());
             listaCorsoDTO.add(corsoDTO);
         }
 
@@ -41,7 +42,7 @@ public class CorsoConverter {
             corsoDTO.setDatainizio(corso.getDataInizio());
             corsoDTO.setDurata(corso.getDurata());
 
-            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToEntity(corso.getListaDiscenti());
+            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToDTO(corso.getListaDiscenti());
             listaCorsoDTO.add(corsoDTO);
         }
 
@@ -63,7 +64,7 @@ public class CorsoConverter {
 
         List<Discente> listaDiscenti = corso.getListaDiscenti();
         if (listaDiscenti != null) {
-            List<DiscenteDTO> listaDiscentiDTO = DiscentiConverter.convertListToEntity(listaDiscenti);
+            List<DiscenteDTO> listaDiscentiDTO = DiscentiConverter.convertListToDTO(listaDiscenti);
             corsoDTO.setListaDiscentiDTO(listaDiscentiDTO);
         }
         return corsoDTO;
@@ -76,8 +77,6 @@ public class CorsoConverter {
         corso.setNomeCorso(corsoDTO.getNomeCorso());
         corso.setDatainizio(corsoDTO.getDataInizio());
         corso.setDurata(corsoDTO.getDurata());
-
-
             if (corsoDTO.getDocenteDTO()!=null) {
                 corso.setDocente(DocenteConverter.convertToEntityXCorso(corsoDTO.getDocenteDTO()));
             } else {
@@ -86,7 +85,7 @@ public class CorsoConverter {
 
             List<DiscenteDTO> listaDiscentiDTO = corsoDTO.getListaDiscentiDTO();
             if (listaDiscentiDTO != null) {
-                List<Discente> listaDiscenti = DiscentiConverter.convertListToDTO(listaDiscentiDTO);
+                List<Discente> listaDiscenti = DiscentiConverter.convertListToEntity(listaDiscentiDTO);
                 corso.setListaDiscenti(listaDiscenti);
             }
 

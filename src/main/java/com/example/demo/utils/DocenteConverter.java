@@ -26,7 +26,7 @@ public class DocenteConverter {
         docenteDTO.setNome(docente.getNome());
         docenteDTO.setCognome(docente.getCognome());
         if (docente.getListaCorsi() != null) {
-            docenteDTO.setListaCorsi(CorsoConverter.convertListToDTONoDOC(docente.getListaCorsi()));
+            docenteDTO.setListaCorsi(CorsoNoDocConverter.convertListToDTONoDOC(docente.getListaCorsi()));
         }
 
 
@@ -44,6 +44,7 @@ public class DocenteConverter {
 
         return docenteDTO;
     }
+
     public static Docente convertToEntityXCorso(DocenteDTO docenteDTO) {
         Docente docente = new Docente();
         if (docenteDTO.getId() != null){

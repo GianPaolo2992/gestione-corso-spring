@@ -22,9 +22,7 @@ public class Discente {
    )
     private List<Corso> listaCorsi;
 
-    public Discente(){
-        this.listaCorsi = new ArrayList<>();
-    }
+    public Discente(){}
 
     public void setNome(String nome) {
         this.nome = nome;
