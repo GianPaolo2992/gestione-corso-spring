@@ -82,10 +82,10 @@ public class Corso {
         return listaDiscenti;
     }
 
-//    public void aggiungiDiscente(Discente discente){
-//        if (!listaDiscenti.contains(discente)){
-//            listaDiscenti.add(discente);
-//            discente.aggiungiCorso(this);
-//        }
-//    }
+    public void addDiscente(Discente discente){
+        if (!listaDiscenti.contains(discente)){
+            listaDiscenti.add(discente);
+            discente.addCorso(this);
+        }
+    }
 }

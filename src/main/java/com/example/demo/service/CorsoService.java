@@ -5,6 +5,7 @@ import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DocenteDTO;
 import com.example.demo.entity.Corso;
 
+import com.example.demo.entity.Discente;
 import com.example.demo.entity.Docente;
 import com.example.demo.repository.CorsoRepository;
 import com.example.demo.repository.DocenteRepository;
@@ -35,14 +36,11 @@ public class CorsoService {
 
     public CorsoDTO getCorsoById(Integer id) {
 
-        Optional<Corso> corso =corsoRepository.findById(id);
+        Optional<Corso> corso = corsoRepository.findById(id);
 
-        if (corso.isPresent()) {
-            return  CorsoConverter.convertToDTO(corso.get());
-        } else {
-            throw new EntityNotFoundException();
-        }
+        return corso.map(CorsoConverter::convertToDTO).orElse(null);
     }
+
 
     public List<CorsoDTO> getAllCorsi() {
         List<Corso> listaCorsi = corsoRepository.findAll();
@@ -58,7 +56,7 @@ public class CorsoService {
     }
 
     public CorsoDTO insertCorso(CorsoDTO corsoDTO) {
-        Optional<Docente> doc = docenteRepository.findById(corsoDTO.getIdDocenteDTO());
+        Optional<Docente> doc = docenteRepository.findById(corsoDTO.getDocenteDTO().getId());
 
         Corso corso = CorsoConverter.convertToEntity(corsoDTO);
 
@@ -75,7 +73,7 @@ public class CorsoService {
 
         Optional<Corso> corso = corsoRepository.findById(id);
         if (corso.isPresent()) {
-            DTO.setid(id);
+            DTO.setId(id);
             Corso corsoSaved = CorsoConverter.convertToEntity(DTO);
             corsoRepository.save(corsoSaved);
             return CorsoConverter.convertToDTO(corsoSaved);
@@ -84,14 +82,25 @@ public class CorsoService {
         }
     }
     public CorsoDTO deleteCorsoById(Integer id ) {
-        Optional<Corso> corso = corsoRepository.findById(id);
+        Optional<Corso> corsoOpt = corsoRepository.findById(id);
 
-        if(corso.isPresent()) {
+        if(corsoOpt.isPresent()) {
+            Corso corso = corsoOpt.get();
 
-            CorsoDTO corsoDTODeleted = CorsoConverter.convertToDTO(corso.get());
+            for (Discente discente: corso.getListaDiscenti()){
+                discente.getListaCorsi().remove(corso);
+            }
+
+            corso.getListaDiscenti().clear();
+            Docente docente = corso.getDocente();
+            docente.getListaCorsi().remove(corso);
+
+
+
+            CorsoDTO corsoDTODeleted = CorsoConverter.convertToDTO(corso);
+
             corsoRepository.deleteById(id);
             return  corsoDTODeleted;
-
         }else{
 
             throw new EntityNotFoundException();

@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.DTO.DocenteDTO;
+import com.example.demo.entity.Corso;
 import com.example.demo.entity.Docente;
+import com.example.demo.repository.CorsoRepository;
 import com.example.demo.repository.DocenteRepository;
 import com.example.demo.utils.DocenteConverter;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class DocenteService {
 
     private final DocenteRepository docenteRepository;
+    private final CorsoRepository corsoRepository;
 
-    public DocenteService(DocenteRepository docenteRepository){
+    public DocenteService(DocenteRepository docenteRepository, CorsoRepository corsoRepository){
         this.docenteRepository = docenteRepository;
+        this.corsoRepository = corsoRepository;
 
     }
 
@@ -79,6 +83,13 @@ public class DocenteService {
         Optional<Docente> doc = docenteRepository.findById(id);
 
         if(doc.isPresent()) {
+
+            for(Corso corso : doc.get().getListaCorsi()){
+                corso.setDocente(null);
+                corsoRepository.save(corso);
+                //gestire eliminzione corsi in docente
+
+            }
             docenteRepository.deleteById(id);
 
         }else{

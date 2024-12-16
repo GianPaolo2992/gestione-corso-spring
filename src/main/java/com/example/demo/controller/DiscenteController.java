@@ -11,17 +11,19 @@ import java.util.List;
 @RequestMapping("/discente")
 public class DiscenteController {
     private final DiscenteService discenteService;
+
     @Autowired
-    public DiscenteController(DiscenteService discenteService){
+    public DiscenteController(DiscenteService discenteService) {
         this.discenteService = discenteService;
     }
+
     @GetMapping("/getDiscenteById/{id}")
-    public DiscenteDTO  getDiscenteById(@PathVariable("id")Integer id) {
+    public DiscenteDTO getDiscenteById(@PathVariable("id") Integer id) {
         return discenteService.getDiscenteById(id);
     }
 
     @GetMapping("/getAllDiscenti")
-    public List<DiscenteDTO>  getAllDiscenti() {
+    public List<DiscenteDTO> getAllDiscenti() {
         return discenteService.getAllDiscenti();
     }
 
@@ -32,13 +34,14 @@ public class DiscenteController {
     }
 
     @PostMapping("/associateCourse/Discente/{idDiscente}/Corso/{idCorso}")
-    public DiscenteDTO associateCourse(@PathVariable("idDiscente")Integer idDiscente, @PathVariable("idCorso")Integer idCorso) {
-        return  discenteService.associaCorso(idDiscente,idCorso);
+    public DiscenteDTO associateCourse(@PathVariable("idDiscente") Integer idDiscente, @PathVariable("idCorso") Integer idCorso) {
+        return discenteService.associaCorso(idDiscente, idCorso);
     }
 
+
     @PutMapping("/updateDiscente/{id}")
-    public DiscenteDTO updateDiscente(@PathVariable("id") Integer id , @RequestBody DiscenteDTO discenteDTO) {
-        return discenteService.updateDiscente(id,discenteDTO);
+    public DiscenteDTO updateDiscente(@PathVariable("id") Integer id, @RequestBody DiscenteDTO discenteDTO) {
+        return discenteService.updateDiscente(id, discenteDTO);
     }
 
     //questo metodo non funziona come previsto dato che non cè una tabella entita che rappresenta la tabella jooin rel_corso_discenti

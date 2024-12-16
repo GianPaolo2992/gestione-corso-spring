@@ -72,11 +72,11 @@ public class Discente {
         return listaCorsi;
     }
 
-//    public void aggiungiCorso (Corso corso){
-//        if (!listaCorsi.contains(corso)){
-//            listaCorsi.add(corso);
-//            corso.aggiungiDiscente(this);
-//        }
-//    }
+    public void addCorso (Corso corso){
+        if (!listaCorsi.contains(corso)) {
+            listaCorsi.add(corso);
+            corso.addDiscente(this);
+        }
+    }
 
 }

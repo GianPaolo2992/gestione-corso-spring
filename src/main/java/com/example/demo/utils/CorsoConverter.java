@@ -22,12 +22,26 @@ public class CorsoConverter {
         List<CorsoDTO> listaCorsoDTO = new ArrayList<>();
         for (Corso corso : corsi) {
             CorsoDTO corsoDTO = new CorsoDTO();
-            corsoDTO.setid(corso.getid());
+            corsoDTO.setId(corso.getid());
             corsoDTO.setNomeCorso(corso.getNomeCorso());
             corsoDTO.setDatainizio(corso.getDataInizio());
             corsoDTO.setDurata(corso.getDurata());
             corsoDTO.setDocenteDTO(DocenteConverter.convertToDTOXCorso(corso.getDocente()));
-            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToDTO(corso.getListaDiscenti());
+//            List<DiscenteDTO> discenteDTOList = DiscentiConverter.convertListToDTO(corso.getListaDiscenti());
+            listaCorsoDTO.add(corsoDTO);
+        }
+
+        return listaCorsoDTO;
+    }
+    public static List<CorsoDTO> convertListToDTOXDiscenti(List<Corso> corsi) {
+        List<CorsoDTO> listaCorsoDTO = new ArrayList<>();
+        for (Corso corso : corsi) {
+            CorsoDTO corsoDTO = new CorsoDTO();
+            corsoDTO.setId(corso.getid());
+            corsoDTO.setNomeCorso(corso.getNomeCorso());
+            corsoDTO.setDatainizio(corso.getDataInizio());
+            corsoDTO.setDurata(corso.getDurata());
+            corsoDTO.setDocenteDTO(DocenteConverter.convertToDTOXCorso(corso.getDocente()));
             listaCorsoDTO.add(corsoDTO);
         }
 
@@ -37,7 +51,7 @@ public class CorsoConverter {
         List<CorsoDTO> listaCorsoDTO = new ArrayList<>();
         for (Corso corso : corsi) {
             CorsoDTO corsoDTO = new CorsoDTO();
-            corsoDTO.setid(corso.getid());
+            corsoDTO.setId(corso.getid());
             corsoDTO.setNomeCorso(corso.getNomeCorso());
             corsoDTO.setDatainizio(corso.getDataInizio());
             corsoDTO.setDurata(corso.getDurata());
@@ -51,15 +65,13 @@ public class CorsoConverter {
 
     public static CorsoDTO convertToDTO(Corso corso) {
         CorsoDTO corsoDTO = new CorsoDTO();
-        corsoDTO.setid(corso.getid());
+        corsoDTO.setId(corso.getid());
         corsoDTO.setNomeCorso(corso.getNomeCorso());
         corsoDTO.setDatainizio(corso.getDataInizio());
         corsoDTO.setDurata(corso.getDurata());
 
         if (corso.getDocente() != null) {
-            corsoDTO.setDocenteDTO(DocenteConverter.convertToDTO(corso.getDocente()));
-        }else {
-            throw new EntityNotFoundException("Docente not found");
+            corsoDTO.setDocenteDTO(DocenteConverter.convertToDTOXCorso(corso.getDocente()));
         }
 
         List<Discente> listaDiscenti = corso.getListaDiscenti();
@@ -73,7 +85,7 @@ public class CorsoConverter {
     public static Corso convertToEntity(CorsoDTO corsoDTO) {
 
         Corso corso = new Corso();
-        corso.setid(corsoDTO.getid());
+        corso.setid(corsoDTO.getId());
         corso.setNomeCorso(corsoDTO.getNomeCorso());
         corso.setDatainizio(corsoDTO.getDataInizio());
         corso.setDurata(corsoDTO.getDurata());

@@ -32,9 +32,10 @@ public class DiscentiConverter {
         discenteDTO.setCognome(discente.getCognome());
         discenteDTO.setMatricola(discente.getMatricola());
         discenteDTO.setDataNascita(discente.getDataNascita());
-        if (discenteDTO.getListaCorsi() != null){
 
-            discenteDTO.setListaCorsi(CorsoConverter.convertListToDTO(discente.getListaCorsi()));
+        if (discente.getListaCorsi() != null){
+
+            discenteDTO.setListaCorsi(CorsoConverter.convertListToDTOXDiscenti(discente.getListaCorsi()));
 
         }else{
             discenteDTO.setListaCorsi(new ArrayList<>());

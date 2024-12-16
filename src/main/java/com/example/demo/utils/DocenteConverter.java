@@ -34,14 +34,12 @@ public class DocenteConverter {
     }
 
 
+
     public static DocenteDTO convertToDTOXCorso(Docente docente) {
         DocenteDTO docenteDTO = new DocenteDTO();
         docenteDTO.setId(docente.getId());
         docenteDTO.setNome(docente.getNome());
         docenteDTO.setCognome(docente.getCognome());
-
-
-
         return docenteDTO;
     }
 
