@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.DTO.CorsoDTO;
 
 import com.example.demo.DTO.DocenteDTO;
+import com.example.demo.DTO.ImmobileDTO;
+import com.example.demo.client.ImmobileClient;
 import com.example.demo.entity.Corso;
 
 import com.example.demo.entity.Discente;
@@ -28,11 +30,16 @@ public class CorsoService {
     @Autowired
     private DocenteRepository docenteRepository;
 
-    public CorsoService(CorsoRepository corsoRepository) {
+    private final ImmobileClient immobileClient;
+
+    public CorsoService(ImmobileClient immobileClient,CorsoRepository corsoRepository) {
         this.corsoRepository = corsoRepository;
+        this.immobileClient = immobileClient;
 
     }
-
+public List<ImmobileDTO> fetchAllImmobili(){
+        return  immobileClient.getImmoobli();
+}
 
     public CorsoDTO getCorsoById(Integer id) {
 

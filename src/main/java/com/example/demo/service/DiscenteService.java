@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DiscenteDTO;
+import com.example.demo.DTO.ProprietariDTO;
 import com.example.demo.entity.Corso;
 import com.example.demo.entity.Discente;
 import com.example.demo.entity.Docente;
@@ -13,9 +14,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.http.HttpHeaders;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +37,19 @@ public class DiscenteService {
 
     private final CorsoRepository corsoRepository;
 
+    private final RestTemplate restTemplate;
+
     private final EntityManager entityManager;
 
-    public DiscenteService(DiscentiRepository discentiRepository, CorsoRepository corsoRepository, EntityManager entityManager) {
+    public DiscenteService(DiscentiRepository discentiRepository,
+                           CorsoRepository corsoRepository,
+                           EntityManager entityManager,
+                           RestTemplate restTemplate)
+    {
         this.discentiRepository = discentiRepository;
         this.corsoRepository = corsoRepository;
         this.entityManager = entityManager;
+        this.restTemplate = restTemplate;
 
     }
 
@@ -47,6 +64,56 @@ public class DiscenteService {
             throw new EntityNotFoundException();
         }
     }
+// REST TEMPLATE-->
+    public List<ProprietariDTO> getAllProp(){
+
+        String url = "http://localhost:8081/proprietari/getAllProprietari ";
+        ProprietariDTO[] propList =  restTemplate.getForObject(url,ProprietariDTO[].class);
+        assert propList != null;
+        return Arrays.asList(propList);
+
+    }
+    public ResponseEntity<ProprietariDTO> deletePropById(Integer id) {
+        String url = "http://localhost:8081/proprietari/deletePropById/" + id;
+        HttpEntity<String> requestEntity = new HttpEntity<>(null);
+        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, ProprietariDTO.class);
+
+    }
+
+
+    public ProprietariDTO getPropById(Integer id){
+        String url = "http://localhost:8081/proprietari/getProprietariById/" + id;
+        try {
+            return restTemplate.getForObject(url, ProprietariDTO.class);
+        } catch (HttpClientErrorException e) {
+            System.err.println("Errore HTTP: " + e.getStatusCode());
+            return null; // O puoi lanciare un'eccezione personalizzata
+        } catch (RestClientException e) {
+            System.err.println("Errore generico: " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    public ProprietariDTO insertProprietario(ProprietariDTO proprietario) {
+        String url = "http://localhost:8081/proprietari/insertProp";
+        return restTemplate.postForObject(url, proprietario, ProprietariDTO.class);
+    }
+    public ProprietariDTO updateProprietario(Integer id, ProprietariDTO proprietario) {
+        String url = "http://localhost:8081/proprietari/updatePropById/" + id;
+
+
+
+        HttpEntity<ProprietariDTO> requestEntity = new HttpEntity<>(proprietario);
+
+        ResponseEntity<ProprietariDTO> response = restTemplate.exchange(
+                url, HttpMethod.PUT, requestEntity, ProprietariDTO.class);
+
+        return response.getBody();
+    }
+
+
+    //REST TEMPLATE <--
 
     public List<DiscenteDTO> getAllDiscenti() {
         List<Discente> listaDiscenti = discentiRepository.findAll();
@@ -89,55 +156,7 @@ public class DiscenteService {
     }
 
 
-    //  questo metodo non funziona come previsto dato che non cè una tabella entita che rappresenta la tabella jooin rel_corso_discenti
 
-//    @Transactional
-//    public DiscenteDTO updateAssociateCourso(Integer idDiscente, Integer idCorso){
-//
-//        Optional<Discente> discenteOpt = discentiRepository.findById(idDiscente);
-//        Optional<Corso> corsoOpt = corsoRepository.findById(idCorso);
-//
-//        if (discenteOpt.isPresent() && corsoOpt.isPresent()) {
-//            Discente discente = discenteOpt.get();
-//            Corso corso = corsoOpt.get();
-//
-//            // Rimuovere le vecchie associazioni
-//            for (Corso c : discente.getListaCorsi()) {
-//                c.getListaDiscenti().remove(discente);
-//            }
-//            discente.getListaCorsi().clear();
-//
-//            for (Discente d : corso.getListaDiscenti()) {
-//                d.getListaCorsi().remove(corso);
-//            }
-//            corso.getListaDiscenti().clear();
-//
-//            corso.getListaDiscenti().add(discente);
-//            discente.getListaCorsi().add(corso);
-//            discentiRepository.save(discente);
-//            corsoRepository.save(corso);
-//            return DiscentiConverter.convertToDTOWithList(discente);
-//
-//        }else{
-//            throw new EntityNotFoundException();
-//        }
-//
-//    }
-
-    //    public  DiscenteDTO updateDiscente(Integer id, DiscenteDTO discenteDTO) {
-//        Optional<Discente> discente = discentiRepository.findById(id);
-//
-//        if (discente.isPresent()){
-//            discente.get().setNome(discenteDTO.getNome());
-//            discente.get().setCognome(discenteDTO.getCognome());
-//            discente.get().setDataNascita(discenteDTO.getDataNascita());
-//            discente.get().setMatricola(discenteDTO.getMatricola());
-//            discentiRepository.save(discente.get());
-//            return DiscentiConverter.convertToDTO(discente.get());
-//        }else{
-//            throw new EntityNotFoundException();
-//        }
-//    }
     public DiscenteDTO updateDiscente(Integer id, DiscenteDTO discenteDTO) {
         Optional<Discente> discente = discentiRepository.findById(id);
 

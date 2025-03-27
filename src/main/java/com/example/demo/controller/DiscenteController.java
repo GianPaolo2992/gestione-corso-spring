@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.DTO.DiscenteDTO;
+import com.example.demo.DTO.ProprietariDTO;
 import com.example.demo.service.DiscenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,6 @@ import java.util.List;
 public class DiscenteController {
     private final DiscenteService discenteService;
 
-    @Autowired
     public DiscenteController(DiscenteService discenteService) {
         this.discenteService = discenteService;
     }
@@ -27,6 +28,33 @@ public class DiscenteController {
         return discenteService.getAllDiscenti();
     }
 
+
+    // REST TEMPLATE -->
+    @GetMapping("/getAllProp")
+    public List<ProprietariDTO> getAllProp() {
+        return discenteService.getAllProp();
+    }
+
+    @GetMapping("/getPropByid/{id}")
+    public ProprietariDTO getPropById(@PathVariable("id") Integer id) {
+        return discenteService.getPropById(id);
+    }
+
+    @PostMapping("/insProp")
+    public ProprietariDTO insProp(@RequestBody ProprietariDTO proprietariDTO) {
+        return discenteService.insertProprietario(proprietariDTO);
+    }
+
+    @PutMapping("updateProp/{id}")
+    public ProprietariDTO updateProp(@PathVariable("id") Integer id, @RequestBody ProprietariDTO proprietariDTO) {
+        return discenteService.updateProprietario(id, proprietariDTO);
+    }
+    @DeleteMapping("/deleteProp/{id}")
+    public ResponseEntity<ProprietariDTO> deleteProp(@PathVariable("id") Integer id) {
+       return discenteService.deletePropById(id);
+    }
+
+    // REST TEMPLATE <--
 
     @PostMapping("/insertDiscente")
     public DiscenteDTO insertDiscente(@RequestBody DiscenteDTO discenteDTO) {

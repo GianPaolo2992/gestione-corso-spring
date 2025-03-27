@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DocenteDTO;
+import com.example.demo.DTO.ImmobileDTO;
 import com.example.demo.entity.Corso;
 import com.example.demo.repository.CorsoRepository;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequestMapping("/corso")
 public class CorsoController {
 
-    private  CorsoService corsoService;
+    private final CorsoService corsoService;
 
     public CorsoController(CorsoService corsoService) {
         this.corsoService = corsoService;
@@ -33,6 +34,13 @@ public class CorsoController {
         return corsoService.getAllCorsi();
 
     }
+    //Feign Client-->
+    @GetMapping("/getAllImmobili")
+    public List<ImmobileDTO> getAllImmobili(){
+        return  corsoService.fetchAllImmobili();
+    }
+
+    //Feign Client<--
 
     @PostMapping("/insertCorso")
     public CorsoDTO insertCorso(@RequestBody CorsoDTO DTO) {

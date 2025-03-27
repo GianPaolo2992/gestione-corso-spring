@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import com.example.demo.DTO.AnnessiDTO;
 import com.example.demo.DTO.DocenteDTO;
 import com.example.demo.entity.Corso;
 import com.example.demo.entity.Docente;
@@ -7,7 +10,11 @@ import com.example.demo.repository.CorsoRepository;
 import com.example.demo.repository.DocenteRepository;
 import com.example.demo.utils.DocenteConverter;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.stereotype.Service;
+
+import org.springframework.web.reactive.function.client.WebClient;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +26,12 @@ public class DocenteService {
 
     private final DocenteRepository docenteRepository;
     private final CorsoRepository corsoRepository;
+    private final WebClient webClient;
 
-    public DocenteService(DocenteRepository docenteRepository, CorsoRepository corsoRepository){
+    public DocenteService(DocenteRepository docenteRepository, CorsoRepository corsoRepository,WebClient webClient){
         this.docenteRepository = docenteRepository;
         this.corsoRepository = corsoRepository;
+        this.webClient = webClient;
 
     }
 
@@ -39,7 +48,58 @@ public class DocenteService {
             throw new EntityNotFoundException();
         }
     }
+    //WEB CLIENT -->
+    //  Recuperare TUTTI gli annessi
+    public Flux<AnnessiDTO> getAllAnnessi() {
+        String url = "/annessi/getAllAnnessi";
 
+        return webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToFlux(AnnessiDTO.class); // Converte la risposta JSON in una lista reattiva
+    }
+    //  Recuperare un annesso
+
+    public Mono<AnnessiDTO> getAnnessoById(Integer annessoId) {
+        String url = "/annessi/getAllAnnessiById/" + annessoId;
+
+        return webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(AnnessiDTO.class); // Converte la risposta JSON in una lista reattiva
+    }
+
+    // inserire un annesso
+    public Mono<AnnessiDTO> insertAnnesso(AnnessiDTO annesso){
+        String url = "/annessi/insertAnnessi";
+        return webClient.post()
+                .uri(url)
+                .bodyValue(annesso)
+                .retrieve()
+                .bodyToMono(AnnessiDTO.class);
+    }
+
+    // aggiorna un annesso
+    public  Mono<AnnessiDTO> updateAnnnesso(Integer id, AnnessiDTO annessiDTO) {
+        String url =  "/annessi/updateAnnessi/" + id;
+        return webClient.put()
+                .uri(url )
+                .bodyValue(annessiDTO)
+                .retrieve()
+                .bodyToMono(AnnessiDTO.class);
+    }
+
+    //delete annesso
+    public Mono<AnnessiDTO> deleteAnnessoById(Integer annessoId) {
+        String url = "/annessi/deleteAnnessi/" + annessoId;
+
+        return webClient.delete()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(AnnessiDTO.class); // Converte la risposta JSON in una lista reattiva
+    }
+
+    //WEB CLIENT <--
 
     public DocenteDTO InsertDocente(DocenteDTO DTO){
         Docente docente = DocenteConverter.convertToEntity(DTO);
