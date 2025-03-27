@@ -35,24 +35,26 @@ public class DocenteController {
 
         return docenteService.getAll();
     }
+
     //WEB CLIENT -->
     @GetMapping("/getAllAnnessi")
-    public Flux<AnnessiDTO> getAllAnnessi(){
+    public Flux<AnnessiDTO> getAllAnnessi() {
         return docenteService.getAllAnnessi();
     }
+
     @GetMapping("/getAnnessoById/{id}")
-    public Mono<AnnessiDTO> getAnnessoById(@PathVariable("id") Integer id){
+    public Mono<AnnessiDTO> getAnnessoById(@PathVariable("id") Integer id) {
         return docenteService.getAnnessoById(id);
     }
 
     @PostMapping("insertAnnesso")
-    public Mono<AnnessiDTO> inserAnnesso(@RequestBody AnnessiDTO annessoDTO){
+    public Mono<AnnessiDTO> inserAnnesso(@RequestBody AnnessiDTO annessoDTO) {
         return docenteService.insertAnnesso(annessoDTO);
     }
 
     @PutMapping("/updateAnnesso/{id}")
-    public Mono<AnnessiDTO> updateAnnesso(@PathVariable("id") Integer id, @RequestBody AnnessiDTO annessoDTO){
-        return docenteService.updateAnnnesso(id,annessoDTO);
+    public Mono<AnnessiDTO> updateAnnesso(@PathVariable("id") Integer id, @RequestBody AnnessiDTO annessoDTO) {
+        return docenteService.updateAnnnesso(id, annessoDTO);
     }
 
     @DeleteMapping("/delteAnnesso/{id}")

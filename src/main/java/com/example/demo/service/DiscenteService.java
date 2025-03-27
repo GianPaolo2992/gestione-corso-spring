@@ -44,8 +44,7 @@ public class DiscenteService {
     public DiscenteService(DiscentiRepository discentiRepository,
                            CorsoRepository corsoRepository,
                            EntityManager entityManager,
-                           RestTemplate restTemplate)
-    {
+                           RestTemplate restTemplate) {
         this.discentiRepository = discentiRepository;
         this.corsoRepository = corsoRepository;
         this.entityManager = entityManager;
@@ -64,15 +63,17 @@ public class DiscenteService {
             throw new EntityNotFoundException();
         }
     }
-// REST TEMPLATE-->
-    public List<ProprietariDTO> getAllProp(){
+
+    // REST TEMPLATE-->
+    public List<ProprietariDTO> getAllProp() {
 
         String url = "http://localhost:8081/proprietari/getAllProprietari ";
-        ProprietariDTO[] propList =  restTemplate.getForObject(url,ProprietariDTO[].class);
+        ProprietariDTO[] propList = restTemplate.getForObject(url, ProprietariDTO[].class);
         assert propList != null;
         return Arrays.asList(propList);
 
     }
+
     public ResponseEntity<ProprietariDTO> deletePropById(Integer id) {
         String url = "http://localhost:8081/proprietari/deletePropById/" + id;
         HttpEntity<String> requestEntity = new HttpEntity<>(null);
@@ -81,7 +82,7 @@ public class DiscenteService {
     }
 
 
-    public ProprietariDTO getPropById(Integer id){
+    public ProprietariDTO getPropById(Integer id) {
         String url = "http://localhost:8081/proprietari/getProprietariById/" + id;
         try {
             return restTemplate.getForObject(url, ProprietariDTO.class);
@@ -99,9 +100,9 @@ public class DiscenteService {
         String url = "http://localhost:8081/proprietari/insertProp";
         return restTemplate.postForObject(url, proprietario, ProprietariDTO.class);
     }
+
     public ProprietariDTO updateProprietario(Integer id, ProprietariDTO proprietario) {
         String url = "http://localhost:8081/proprietari/updatePropById/" + id;
-
 
 
         HttpEntity<ProprietariDTO> requestEntity = new HttpEntity<>(proprietario);
@@ -156,7 +157,6 @@ public class DiscenteService {
     }
 
 
-
     public DiscenteDTO updateDiscente(Integer id, DiscenteDTO discenteDTO) {
         Optional<Discente> discente = discentiRepository.findById(id);
 
@@ -170,6 +170,7 @@ public class DiscenteService {
             throw new EntityNotFoundException();
         }
     }
+
     @Transactional
     public DiscenteDTO deleteDiscenteById(Integer id) {
         Optional<Discente> d = discentiRepository.findById(id);

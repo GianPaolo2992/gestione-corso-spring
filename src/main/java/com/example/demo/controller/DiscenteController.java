@@ -49,9 +49,10 @@ public class DiscenteController {
     public ProprietariDTO updateProp(@PathVariable("id") Integer id, @RequestBody ProprietariDTO proprietariDTO) {
         return discenteService.updateProprietario(id, proprietariDTO);
     }
+
     @DeleteMapping("/deleteProp/{id}")
     public ResponseEntity<ProprietariDTO> deleteProp(@PathVariable("id") Integer id) {
-       return discenteService.deletePropById(id);
+        return discenteService.deletePropById(id);
     }
 
     // REST TEMPLATE <--

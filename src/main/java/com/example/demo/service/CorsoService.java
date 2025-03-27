@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CorsoService {
 
@@ -32,14 +33,35 @@ public class CorsoService {
 
     private final ImmobileClient immobileClient;
 
-    public CorsoService(ImmobileClient immobileClient,CorsoRepository corsoRepository) {
+    public CorsoService(ImmobileClient immobileClient, CorsoRepository corsoRepository) {
         this.corsoRepository = corsoRepository;
         this.immobileClient = immobileClient;
 
     }
-public List<ImmobileDTO> fetchAllImmobili(){
-        return  immobileClient.getImmoobli();
-}
+
+    //OPEN FEIGN--> inizio
+    public List<ImmobileDTO> fetchAllImmobili() {
+        return immobileClient.getImmoobli();
+    }
+
+    public ImmobileDTO getImmobileByid(Integer id) {
+        return immobileClient.getImmobileById(id);
+
+    }
+
+    public ImmobileDTO insertImoobile(ImmobileDTO immobileDTO) {
+        return immobileClient.InsertImmobile(immobileDTO);
+    }
+
+    public ImmobileDTO updateImmobile(Integer id, ImmobileDTO immobileDTO) {
+        return immobileClient.updateImmobile(id, immobileDTO);
+    }
+
+
+    public ImmobileDTO deleteImmobile(Integer id) {
+        return immobileClient.deleteImmobile(id);
+    }
+    //OPEN FEIGn<--fine
 
     public CorsoDTO getCorsoById(Integer id) {
 
@@ -53,13 +75,13 @@ public List<ImmobileDTO> fetchAllImmobili(){
         List<Corso> listaCorsi = corsoRepository.findAll();
         List<CorsoDTO> DTOCorsi = new ArrayList<>();
 
-        for(Corso corso : listaCorsi) {
+        for (Corso corso : listaCorsi) {
             CorsoDTO newDTO = CorsoConverter.convertToDTO(corso);
 
 
             DTOCorsi.add(newDTO);
         }
-    return DTOCorsi;
+        return DTOCorsi;
     }
 
     public CorsoDTO insertCorso(CorsoDTO corsoDTO) {
@@ -70,13 +92,13 @@ public List<ImmobileDTO> fetchAllImmobili(){
         if (doc.isPresent()) {
             Docente docente = doc.get();
             corso.setDocente(docente);
-      //      docente.addCorso(corso);
+            //      docente.addCorso(corso);
         }
         Corso CorsoSaved = corsoRepository.save(corso);
         return CorsoConverter.convertToDTO(CorsoSaved);
     }
 
-    public CorsoDTO updateCorso(Integer id,CorsoDTO DTO) {
+    public CorsoDTO updateCorso(Integer id, CorsoDTO DTO) {
 
         Optional<Corso> corso = corsoRepository.findById(id);
         if (corso.isPresent()) {
@@ -88,13 +110,14 @@ public List<ImmobileDTO> fetchAllImmobili(){
             throw new EntityNotFoundException();
         }
     }
-    public CorsoDTO deleteCorsoById(Integer id ) {
+
+    public CorsoDTO deleteCorsoById(Integer id) {
         Optional<Corso> corsoOpt = corsoRepository.findById(id);
 
-        if(corsoOpt.isPresent()) {
+        if (corsoOpt.isPresent()) {
             Corso corso = corsoOpt.get();
 
-            for (Discente discente: corso.getListaDiscenti()){
+            for (Discente discente : corso.getListaDiscenti()) {
                 discente.getListaCorsi().remove(corso);
             }
 
@@ -103,12 +126,11 @@ public List<ImmobileDTO> fetchAllImmobili(){
             docente.getListaCorsi().remove(corso);
 
 
-
             CorsoDTO corsoDTODeleted = CorsoConverter.convertToDTO(corso);
 
             corsoRepository.deleteById(id);
-            return  corsoDTODeleted;
-        }else{
+            return corsoDTODeleted;
+        } else {
 
             throw new EntityNotFoundException();
         }

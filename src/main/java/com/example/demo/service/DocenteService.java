@@ -28,7 +28,7 @@ public class DocenteService {
     private final CorsoRepository corsoRepository;
     private final WebClient webClient;
 
-    public DocenteService(DocenteRepository docenteRepository, CorsoRepository corsoRepository,WebClient webClient){
+    public DocenteService(DocenteRepository docenteRepository, CorsoRepository corsoRepository, WebClient webClient) {
         this.docenteRepository = docenteRepository;
         this.corsoRepository = corsoRepository;
         this.webClient = webClient;
@@ -37,17 +37,18 @@ public class DocenteService {
 
     public DocenteDTO getDocenteById(Integer id) {
 
-        Optional<Docente> docente =docenteRepository.findById(id);
+        Optional<Docente> docente = docenteRepository.findById(id);
 
-        if (docente.isPresent()){
+        if (docente.isPresent()) {
 
-           DocenteDTO newDto = DocenteConverter.convertToDTO(docente.get());
+            DocenteDTO newDto = DocenteConverter.convertToDTO(docente.get());
 
-            return newDto ;
+            return newDto;
         } else {
             throw new EntityNotFoundException();
         }
     }
+
     //WEB CLIENT -->
     //  Recuperare TUTTI gli annessi
     public Flux<AnnessiDTO> getAllAnnessi() {
@@ -70,7 +71,7 @@ public class DocenteService {
     }
 
     // inserire un annesso
-    public Mono<AnnessiDTO> insertAnnesso(AnnessiDTO annesso){
+    public Mono<AnnessiDTO> insertAnnesso(AnnessiDTO annesso) {
         String url = "/annessi/insertAnnessi";
         return webClient.post()
                 .uri(url)
@@ -80,10 +81,10 @@ public class DocenteService {
     }
 
     // aggiorna un annesso
-    public  Mono<AnnessiDTO> updateAnnnesso(Integer id, AnnessiDTO annessiDTO) {
-        String url =  "/annessi/updateAnnessi/" + id;
+    public Mono<AnnessiDTO> updateAnnnesso(Integer id, AnnessiDTO annessiDTO) {
+        String url = "/annessi/updateAnnessi/" + id;
         return webClient.put()
-                .uri(url )
+                .uri(url)
                 .bodyValue(annessiDTO)
                 .retrieve()
                 .bodyToMono(AnnessiDTO.class);
@@ -101,7 +102,7 @@ public class DocenteService {
 
     //WEB CLIENT <--
 
-    public DocenteDTO InsertDocente(DocenteDTO DTO){
+    public DocenteDTO InsertDocente(DocenteDTO DTO) {
         Docente docente = DocenteConverter.convertToEntity(DTO);
         Docente DocenteSaved = docenteRepository.save(docente);
         return DocenteConverter.convertToDTO(DocenteSaved);
@@ -109,42 +110,41 @@ public class DocenteService {
     }
 
 
-
-    public List<DocenteDTO> getAll( ) {
+    public List<DocenteDTO> getAll() {
         List<Docente> docenteList = docenteRepository.findAll();
         List<DocenteDTO> ListDTO = new ArrayList<>();
-       for(Docente doc : docenteList){
+        for (Docente doc : docenteList) {
 
-           DocenteDTO newDTO = DocenteConverter.convertToDTO(doc);
+            DocenteDTO newDTO = DocenteConverter.convertToDTO(doc);
 
-           ListDTO.add(newDTO);
-       }
+            ListDTO.add(newDTO);
+        }
 
-       return ListDTO;
+        return ListDTO;
     }
 
 
     public DocenteDTO updateDocente(Integer id, DocenteDTO DTO) {
 
-       Optional<Docente>  doc = docenteRepository.findById(id);
-        if(doc.isPresent()){
+        Optional<Docente> doc = docenteRepository.findById(id);
+        if (doc.isPresent()) {
             DTO.setId(id);
             Docente DocenteSaved = DocenteConverter.convertToEntity(DTO);
             docenteRepository.save(DocenteSaved);
             return DocenteConverter.convertToDTO(DocenteSaved);
-        }else {
+        } else {
             throw new EntityNotFoundException();
         }
 
     }
 
 
-    public void deleteDocenteById(Integer id ) {
+    public void deleteDocenteById(Integer id) {
         Optional<Docente> doc = docenteRepository.findById(id);
 
-        if(doc.isPresent()) {
+        if (doc.isPresent()) {
 
-            for(Corso corso : doc.get().getListaCorsi()){
+            for (Corso corso : doc.get().getListaCorsi()) {
                 corso.setDocente(null);
                 corsoRepository.save(corso);
                 //gestire eliminzione corsi in docente
@@ -152,7 +152,7 @@ public class DocenteService {
             }
             docenteRepository.deleteById(id);
 
-        }else{
+        } else {
 
             throw new EntityNotFoundException();
         }

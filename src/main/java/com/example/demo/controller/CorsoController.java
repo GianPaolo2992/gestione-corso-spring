@@ -22,22 +22,43 @@ public class CorsoController {
     }
 
     @GetMapping("/getCorsoById/{id}")
-    public CorsoDTO getCorsoById(@PathVariable("id") Integer id ){
+    public CorsoDTO getCorsoById(@PathVariable("id") Integer id) {
 
         return corsoService.getCorsoById(id);
 
     }
 
     @GetMapping("/getAllCorsi")
-    public List<CorsoDTO> getAllCorsi(){
+    public List<CorsoDTO> getAllCorsi() {
 
         return corsoService.getAllCorsi();
 
     }
+
     //Feign Client-->
     @GetMapping("/getAllImmobili")
-    public List<ImmobileDTO> getAllImmobili(){
-        return  corsoService.fetchAllImmobili();
+    public List<ImmobileDTO> getAllImmobili() {
+        return corsoService.fetchAllImmobili();
+    }
+
+    @GetMapping("/getImmobileById/{id}")
+    public ImmobileDTO getImmobileById(@PathVariable("id") Integer id) {
+        return corsoService.getImmobileByid(id);
+    }
+
+    @PostMapping("/insertImmobile")
+    public ImmobileDTO insertImmobile(@RequestBody ImmobileDTO immobileDTO) {
+        return corsoService.insertImoobile(immobileDTO);
+    }
+
+    @PutMapping("/updateImmobile/{id}")
+    public ImmobileDTO updateImmobile(@PathVariable("id") Integer id, @RequestBody ImmobileDTO immobileDTO) {
+        return corsoService.updateImmobile(id, immobileDTO);
+    }
+
+    @DeleteMapping("/deleteImmobileById/{id}")
+    public ImmobileDTO deleteImmobile(@PathVariable("id") Integer id) {
+        return corsoService.deleteImmobile(id);
     }
 
     //Feign Client<--
@@ -49,13 +70,13 @@ public class CorsoController {
 
 
     @PutMapping("/updateCorso/{id}")
-    public CorsoDTO updateCorso(@PathVariable("id") Integer id , @RequestBody CorsoDTO DTO) {
-        return corsoService.updateCorso(id,DTO);
+    public CorsoDTO updateCorso(@PathVariable("id") Integer id, @RequestBody CorsoDTO DTO) {
+        return corsoService.updateCorso(id, DTO);
     }
 
     @DeleteMapping("/deleteCorsoById/{id}")
-    public CorsoDTO deleteCorsoById(@PathVariable("id")Integer id){
-       return corsoService.deleteCorsoById(id);
+    public CorsoDTO deleteCorsoById(@PathVariable("id") Integer id) {
+        return corsoService.deleteCorsoById(id);
 
     }
 
